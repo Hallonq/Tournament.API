@@ -11,9 +11,6 @@ public static class ApplicationBuilderExtensions
         using var scope = builder.ApplicationServices.CreateScope();
         var serviceProvider = scope.ServiceProvider;
         var db = serviceProvider.GetRequiredService<TournamentAPIContext>();
-
-
-
         await db.Database.MigrateAsync();
         if (await db.TournamentDetails.AnyAsync())
         {
@@ -46,17 +43,6 @@ public static class ApplicationBuilderExtensions
 
         return faker.Generate(nrOfTournamentDetails);
     }
-
-
-    //private static List<TournamentDetails> GenerateTournamentDetails(int nrOfTournamentDetails)
-    //{
-    //    var faker = new Faker<TournamentDetails>("sv")
-    //        .RuleFor(t => t.Title, f => f.Company.CompanyName())
-    //        .RuleFor(t => t.StartDate, f => f.Date.Future())
-    //        .RuleFor(t => t.Games, (f, t) => GenerateGames(t, f.Random.Int(2, 5)));
-
-    //    return faker.Generate(nrOfTournamentDetails);
-    //}
 
     private static ICollection<Game> GenerateGames(TournamentDetails tournament, int nrOfGames)
     {
