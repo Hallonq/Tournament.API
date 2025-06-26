@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Tournament.API.Extensions;
+using Tournament.Core.Repositories;
 using Tournament.Data.Data;
+using Tournament.Data.Repositories;
 namespace Tournament.API;
 public class Program
 {
@@ -15,6 +17,7 @@ public class Program
             .AddNewtonsoftJson(options => 
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
             .AddXmlDataContractSerializerFormatters();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         var app = builder.Build();
         if (app.Environment.IsDevelopment())
