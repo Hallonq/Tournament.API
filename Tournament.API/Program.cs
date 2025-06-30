@@ -17,6 +17,9 @@ public class Program
             .AddNewtonsoftJson(options => 
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
             .AddXmlDataContractSerializerFormatters();
+        builder.Services.AddScoped<ITournamentRepository, TournamentRepository>();
+        builder.Services.AddScoped<IGamesRepository, GamesRepository>();
+        builder.Services.AddAutoMapper(typeof(TournamentMappings));
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         var app = builder.Build();
