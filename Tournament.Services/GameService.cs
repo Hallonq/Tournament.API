@@ -31,9 +31,10 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper) : IGameService
 
     public async Task<GameDto> UpdateGameAsync(int id, GameDto gameDto)
     {
-        var game = mapper.Map<GameDto>(gameDto);
+        var game = await unitOfWork.GamesRepository.GetByIdAsync(id);
+        mapper.Map(gameDto, game);
         await unitOfWork.PersistAllAsync();
-        return game;
+        return gameDto;
     }
 
     public async Task<GameDto> PatchGameAsync(int id, JsonPatchDocument<GameDto> patchDoc)

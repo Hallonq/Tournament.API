@@ -1,8 +1,12 @@
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
+using Tournament.API.Controllers;
 using Tournament.API.Extensions;
+using Tournament.Contracts;
 using Tournament.Core.Repositories;
 using Tournament.Data.Data;
 using Tournament.Data.Repositories;
+using Tournament.Services;
 namespace Tournament.API;
 public class Program
 {
@@ -11,7 +15,8 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         builder.Services.AddDbContext<TournamentAPIContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("TournamentAPIContext") ?? throw new InvalidOperationException("Connection string 'TournamentAPIContext' not found.")));
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .PartManager.ApplicationParts.Add(new AssemblyPart(typeof(GamesController).Assembly));
         builder.Services.AddOpenApi();
         builder.Services.AddControllers(opt => opt.ReturnHttpNotAcceptable = true)
             .AddNewtonsoftJson(options => 
@@ -21,6 +26,7 @@ public class Program
         builder.Services.AddScoped<IGamesRepository, GamesRepository>();
         builder.Services.AddAutoMapper(typeof(TournamentMappings));
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<IGameService, GameService>();
 
         var app = builder.Build();
         if (app.Environment.IsDevelopment())

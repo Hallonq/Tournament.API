@@ -31,7 +31,7 @@ public class GamesController(IGameService gameService) : ControllerBase
     public async Task<IActionResult> PutGame(int id, GameDto gameDto)
     {
         var game = await gameService.UpdateGameAsync(id, gameDto);
-        return game is null ? NotFound() : Ok();
+        return game is null ? NotFound() : Ok(game);
     }
 
     // PATCH: api/Games
