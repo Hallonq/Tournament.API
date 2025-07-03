@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -18,8 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tournament.Contracts\Tournament.Contracts.csproj" />
     <ProjectReference Include="..\Tournament.Core\Tournament.Core.csproj" />
     <ProjectReference Include="..\Tournament.Data\Tournament.Data.csproj" />
+    <ProjectReference Include="..\Tournament.Prensentation\Tournament.Prensentation.csproj" />
+    <ProjectReference Include="..\Tournament.Services\Tournament.Services.csproj" />
   </ItemGroup>
 
 </Project>
