@@ -8,8 +8,8 @@ public interface ITournamentService
     // For example:
     Task<IEnumerable<TournamentDto>> GetAllTournamentsAsync(bool includeGames = false);
     Task<TournamentDto> GetTournamentByIdAsync(int id);
-    Task<bool> CreateTournamentAsync(TournamentDto tournamentDto);
-    Task<bool> UpdateTournamentAsync(int id, TournamentDto tournamentDto);
-    Task<bool> DeleteTournamentAsync(int id);
-    Task<bool> PatchTournamentAsync(int id, JsonPatchDocument<TournamentDto> patchDoc);
+    Task<TournamentDto> UpdateTournamentAsync(int id, TournamentDto tournamentDto);
+    Task<TournamentDto> PatchTournamentAsync(int id, JsonPatchDocument<TournamentDto> patchDoc);
+    Task<TournamentDto> CreateTournamentAsync(TournamentDto tournamentDto);
+    Task DeleteTournamentAsync(int id);
 }

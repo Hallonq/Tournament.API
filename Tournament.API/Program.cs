@@ -27,6 +27,7 @@ public class Program
         builder.Services.AddAutoMapper(typeof(TournamentMappings));
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IGameService, GameService>();
+        builder.Services.AddScoped<ITournamentService, TournamentService>();
 
         var app = builder.Build();
         if (app.Environment.IsDevelopment())

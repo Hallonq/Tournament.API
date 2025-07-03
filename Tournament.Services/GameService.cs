@@ -44,7 +44,7 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper) : IGameService
         patchDoc.ApplyTo(gameDto);
         mapper.Map(gameDto, game); // needed?
         await unitOfWork.PersistAllAsync();
-        return game; // return gameDto instead?
+        return gameDto;
     }
 
     public async Task<GameDto> CreateGameAsync(GameDto gameDto)

@@ -2,41 +2,76 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Tournament.Contracts;
 using Tournament.Core.Dto;
+using Tournament.Core.Entities;
 using Tournament.Core.Repositories;
 
 namespace Tournament.Services;
 public class TournamentService(IUnitOfWork unitOfWork, IMapper mapper) : ITournamentService
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IMapper _mapper = mapper;
+    private readonly IUnitOfWork unitOfWork = unitOfWork;
+    private readonly IMapper mapper = mapper;
 
-    public Task<bool> CreateTournamentAsync(TournamentDto tournamentDto)
+    public async Task<IEnumerable<TournamentDto>> GetAllTournamentsAsync(bool includeGames = false)
     {
-        throw new NotImplementedException();
+        var entities = await unitOfWork.TournamentRepository.GetAllAsync(includeGames);
+        var DTOs = mapper.Map<List<TournamentDto>>(entities);
+        return DTOs;
     }
 
-    public Task<bool> DeleteTournamentAsync(int id)
+    public async Task<TournamentDto> GetTournamentByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var entity = await unitOfWork.TournamentRepository.GetAsync(id);
+        var DTO = mapper.Map<TournamentDto>(entity);
+        return DTO;
     }
 
-    public Task<IEnumerable<TournamentDto>> GetAllTournamentsAsync(bool includeGames = false)
+    public async Task<TournamentDto> UpdateTournamentAsync(int id, TournamentDto tournamentDto)
     {
-        throw new NotImplementedException();
+        var entity = await unitOfWork.TournamentRepository.GetAsync(id);
+        mapper.Map(tournamentDto, entity);
+        await unitOfWork.PersistAllAsync();
+        return tournamentDto;
     }
 
-    public Task<TournamentDto> GetTournamentByIdAsync(int id)
+    public async Task<TournamentDto> PatchTournamentAsync(int id, JsonPatchDocument<TournamentDto> patchDoc)
     {
-        throw new NotImplementedException();
+        var entity = await unitOfWork.TournamentRepository.GetAsync(id);
+        var tournamentDto = mapper.Map<TournamentDto>(entity);
+        patchDoc.ApplyTo(tournamentDto);
+        mapper.Map(tournamentDto, entity);
+        await unitOfWork.PersistAllAsync();
+        return tournamentDto;
     }
 
-    public Task<bool> PatchTournamentAsync(int id, JsonPatchDocument<TournamentDto> patchDoc)
+    public async Task<TournamentDto> CreateTournamentAsync(TournamentDto tournamentDto)
     {
-        throw new NotImplementedException();
+        var entity = mapper.Map<TournamentDetails>(tournamentDto);
+        try
+        {
+            unitOfWork.TournamentRepository.Add(entity);
+            await unitOfWork.PersistAllAsync();
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+
+        return tournamentDto;
     }
 
-    public Task<bool> UpdateTournamentAsync(int id, TournamentDto tournamentDto)
+    public async Task DeleteTournamentAsync(int id)
     {
-        throw new NotImplementedException();
+        if (await unitOfWork.TournamentRepository.AnyAsync(id))
+        {
+            try
+            {
+                unitOfWork.TournamentRepository.Remove(id);
+                await unitOfWork.PersistAllAsync();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
