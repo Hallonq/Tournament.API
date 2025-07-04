@@ -8,13 +8,13 @@ namespace Tournament.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TournamentDetailsController(ITournamentService tournamentService) : ControllerBase
+public class TournamentDetailsController(IServiceManager serviceManager) : ControllerBase
 {
     // GET: api/TournamentDetails
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TournamentDto>>> GetTournamentDetails([FromBody] bool includeGames = false)
     {
-        var tournaments = await tournamentService.GetAllTournamentsAsync();
+        var tournaments = await serviceManager.TournamentService.GetAllTournamentsAsync();
         return tournaments is null ? NotFound() : Ok(tournaments);
     }
 
@@ -22,7 +22,7 @@ public class TournamentDetailsController(ITournamentService tournamentService) :
     [HttpGet("{id}")]
     public async Task<ActionResult<TournamentDto>> GetTournamentDetails(int id)
     {
-        var tournament = await tournamentService.GetTournamentByIdAsync(id);
+        var tournament = await serviceManager.TournamentService.GetTournamentByIdAsync(id);
         return tournament is null ? NotFound() : Ok(tournament);
     }
 
@@ -31,7 +31,7 @@ public class TournamentDetailsController(ITournamentService tournamentService) :
     [HttpPut("{id}")]
     public async Task<IActionResult> PutTournamentDetails(int id, TournamentDto tournamentDto)
     {
-        var tournament = await tournamentService.UpdateTournamentAsync(id, tournamentDto);
+        var tournament = await serviceManager.TournamentService.UpdateTournamentAsync(id, tournamentDto);
         return tournament is null ? NotFound() : Ok(tournament);
     }
 
@@ -42,7 +42,7 @@ public class TournamentDetailsController(ITournamentService tournamentService) :
         JsonPatchDocument<TournamentDto> patchDoc)
     {
         if (patchDoc is null) { return BadRequest(); }
-        var DTO = await tournamentService.PatchTournamentAsync(id, patchDoc);
+        var DTO = await serviceManager.TournamentService.PatchTournamentAsync(id, patchDoc);
         return DTO is null ? NotFound() : Ok(DTO);
     }
 
@@ -51,7 +51,7 @@ public class TournamentDetailsController(ITournamentService tournamentService) :
     [HttpPost]
     public async Task<ActionResult<TournamentDetails>> PostTournamentDetails(TournamentDto tournamentDto)
     {
-        var DTO = await tournamentService.CreateTournamentAsync(tournamentDto);
+        var DTO = await serviceManager.TournamentService.CreateTournamentAsync(tournamentDto);
         return CreatedAtAction("GetTournamentDetails", DTO);
     }
 
@@ -59,7 +59,7 @@ public class TournamentDetailsController(ITournamentService tournamentService) :
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTournamentDetails(int id)
     {
-        await tournamentService.DeleteTournamentAsync(id);
+        await serviceManager.TournamentService.DeleteTournamentAsync(id);
         return NoContent();
     }
 }

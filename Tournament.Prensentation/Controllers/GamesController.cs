@@ -7,13 +7,13 @@ namespace Tournament.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class GamesController(IGameService gameService) : ControllerBase
+public class GamesController(IServiceManager serviceManager) : ControllerBase
 {
     // GET: api/Games
     [HttpGet]
     public async Task<ActionResult<IEnumerable<GameDto>>> GetGames()
     {
-        var games = await gameService.GetAllGamesAsync();
+        var games = await serviceManager.GameService.GetAllGamesAsync();
         return games is null ? NotFound() : Ok(games);
     }
 
@@ -21,7 +21,7 @@ public class GamesController(IGameService gameService) : ControllerBase
     [HttpGet("{title}")]
     public async Task<ActionResult<GameDto>> GetGame(string title)
     {
-        var game = await gameService.GetGameByTitleAsync(title);
+        var game = await serviceManager.GameService.GetGameByTitleAsync(title);
         return game is null ? NotFound() : Ok(game);
     }
 
@@ -30,7 +30,7 @@ public class GamesController(IGameService gameService) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> PutGame(int id, GameDto gameDto)
     {
-        var game = await gameService.UpdateGameAsync(id, gameDto);
+        var game = await serviceManager.GameService.UpdateGameAsync(id, gameDto);
         return game is null ? NotFound() : Ok(game);
     }
 
@@ -41,7 +41,7 @@ public class GamesController(IGameService gameService) : ControllerBase
         [FromBody] JsonPatchDocument<GameDto> patchDoc)
     {
         if (patchDoc is null) { return BadRequest(); }
-        var game = await gameService.PatchGameAsync(id, patchDoc);
+        var game = await serviceManager.GameService.PatchGameAsync(id, patchDoc);
         return Ok(game);
     }
 
@@ -50,7 +50,7 @@ public class GamesController(IGameService gameService) : ControllerBase
     [HttpPost]
     public async Task<ActionResult<GameDto>> PostGame(GameDto gameDto)
     {
-        var game = await gameService.CreateGameAsync(gameDto);
+        var game = await serviceManager.GameService.CreateGameAsync(gameDto);
         return CreatedAtAction("GetGame", new { game });
     }
 
@@ -58,13 +58,13 @@ public class GamesController(IGameService gameService) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteGame(int id)
     {
-        var game = await gameService.GameExistsAsync(id);
+        var game = await serviceManager.GameService.GameExistsAsync(id);
         if (!game)
             return NotFound();
 
         try
         {
-            await gameService.DeleteGameAsync(id);
+            await serviceManager.GameService.DeleteGameAsync(id);
         }
         catch (Exception e)
         {
