@@ -4,7 +4,7 @@ using Tournament.Contracts;
 using Tournament.Core.Dto;
 using Tournament.Core.Entities;
 
-namespace Tournament.API.Controllers;
+namespace Tournament.Prensentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

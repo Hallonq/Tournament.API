@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.EntityFrameworkCore;
-using Tournament.API.Controllers;
 using Tournament.API.Extensions;
 using Tournament.Contracts;
 using Tournament.Core.Repositories;
 using Tournament.Data.Data;
 using Tournament.Data.Repositories;
+using Tournament.Prensentation.Controllers;
 using Tournament.Services;
 namespace Tournament.API;
 public class Program
@@ -28,6 +28,7 @@ public class Program
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IGameService, GameService>();
         builder.Services.AddScoped<ITournamentService, TournamentService>();
+        builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
         var app = builder.Build();
         if (app.Environment.IsDevelopment())

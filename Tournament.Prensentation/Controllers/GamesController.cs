@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Tournament.Contracts;
 using Tournament.Core.Dto;
+using Tournament.Core.Entities;
 
-namespace Tournament.API.Controllers;
+namespace Tournament.Prensentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -11,9 +12,9 @@ public class GamesController(IServiceManager serviceManager) : ControllerBase
 {
     // GET: api/Games
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<GameDto>>> GetGames()
+    public async Task<ActionResult<IEnumerable<GameDto>>> GetGames([FromQuery] GamesParameters gamesParameters)
     {
-        var games = await serviceManager.GameService.GetAllGamesAsync();
+        var games = await serviceManager.GameService.GetAllGamesAsync(gamesParameters);
         return games is null ? NotFound() : Ok(games);
     }
 

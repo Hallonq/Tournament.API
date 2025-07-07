@@ -8,7 +8,7 @@ public class GamesRepository(TournamentAPIContext context) : IGamesRepository
 {
     public void Add(Game game) => context.Add(game);
     public async Task<bool> AnyAsync(int id) => await context.Game.Where(x => x.Id == id).AnyAsync();
-    public async Task<IEnumerable<Game>> GetAllAsync() => await Task.FromResult<IEnumerable<Game>>([.. context.Game.AsNoTracking()]);
+    public async Task<IEnumerable<Game>> GetAllAsync(GamesParameters gamesParameters) => await Task.FromResult<IEnumerable<Game>>([.. context.Game.Skip((gamesParameters.CurrentPage - 1) * gamesParameters.PageSize).Take(gamesParameters.PageSize).AsNoTracking()]);
     public async Task<Game> GetByTitleAsync(string? title) => await Task.FromResult<Game>(await context.Game.Where(x => x.Title == title).FirstOrDefaultAsync());
     public async Task<Game> GetByIdAsync(int id) => await Task.FromResult<Game>(await context.Game.FindAsync(id));
     public void Update(Game game) => context.Entry(game).State = EntityState.Modified;

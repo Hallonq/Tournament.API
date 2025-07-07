@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Tournament.Core.Dto;
+using Tournament.Core.Entities;
 
 namespace Tournament.Contracts;
 public interface IGameService
 {
-    Task<IEnumerable<GameDto>> GetAllGamesAsync();
+    Task<IEnumerable<GameDto>> GetAllGamesAsync(GamesParameters gamesParameters);
     Task<GameDto> GetGameByIdAsync(int id);
     Task<GameDto> GetGameByTitleAsync(string title);
     Task<GameDto> CreateGameAsync(GameDto gameDto);
