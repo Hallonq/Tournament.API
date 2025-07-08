@@ -11,9 +11,9 @@ public class TournamentService(IUnitOfWork unitOfWork, IMapper mapper) : ITourna
     private readonly IUnitOfWork unitOfWork = unitOfWork;
     private readonly IMapper mapper = mapper;
 
-    public async Task<IEnumerable<TournamentDto>> GetAllTournamentsAsync(bool includeGames = false)
+    public async Task<IEnumerable<TournamentDto>> GetAllTournamentsAsync()
     {
-        var entities = await unitOfWork.TournamentRepository.GetAllAsync(includeGames);
+        var entities = await unitOfWork.TournamentRepository.GetAllAsync();
         var DTOs = mapper.Map<List<TournamentDto>>(entities);
         return DTOs;
     }

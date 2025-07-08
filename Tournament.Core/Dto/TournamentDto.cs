@@ -26,4 +26,5 @@ public class TournamentDto
             value = StartDate.AddMonths(3);
         }
     }
+    public ICollection<GameDto> GameDto { get; set; } = [];
 }

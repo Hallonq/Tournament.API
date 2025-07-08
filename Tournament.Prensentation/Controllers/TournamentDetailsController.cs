@@ -12,7 +12,7 @@ public class TournamentDetailsController(IServiceManager serviceManager) : Contr
 {
     // GET: api/TournamentDetails
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TournamentDto>>> GetTournamentDetails([FromBody] bool includeGames = false)
+    public async Task<ActionResult<IEnumerable<TournamentDto>>> GetTournamentDetails()
     {
         var tournaments = await serviceManager.TournamentService.GetAllTournamentsAsync();
         return tournaments is null ? NotFound() : Ok(tournaments);

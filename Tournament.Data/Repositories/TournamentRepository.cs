@@ -8,12 +8,9 @@ public class TournamentRepository(TournamentAPIContext context) : ITournamentRep
 {
     public void Add(TournamentDetails tournament) => context.Add(tournament);
     public async Task<bool> AnyAsync(int id) => await context.TournamentDetails.Where(x => x.Id == id).AnyAsync();
-    public async Task<IEnumerable<TournamentDetails>> GetAllAsync(bool i)
+    public async Task<IEnumerable<TournamentDetails>> GetAllAsync()
     {
-        if (i)
-            return await Task.FromResult<IEnumerable<TournamentDetails>>([.. context.TournamentDetails.AsNoTracking().Include(x => x.Games)]);
-        else
-            return await Task.FromResult<IEnumerable<TournamentDetails>>([.. context.TournamentDetails.AsNoTracking()]);
+        return await Task.FromResult<IEnumerable<TournamentDetails>>([.. context.TournamentDetails.AsNoTracking().Include(x => x.Games)]);
     }
     public async Task<TournamentDetails> GetAsync(int id) => await Task.FromResult<TournamentDetails>(await context.TournamentDetails.FindAsync(id));
     public void Update(TournamentDetails tournament) => context.Entry(tournament).State = EntityState.Modified;
