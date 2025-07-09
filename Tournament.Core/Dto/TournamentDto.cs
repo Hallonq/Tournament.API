@@ -11,20 +11,8 @@ public class TournamentDto
     public string? Title { get; set; }
     [DataMember]
     public DateTime StartDate { get; set; }
-
-    private DateTime endDate;
     [DataMember]
-    public DateTime EndDate
-    {
-        get
-        {
-            return endDate;
-        }
-
-        set
-        {
-            value = StartDate.AddMonths(3);
-        }
-    }
-    public ICollection<GameDto> GameDto { get; set; } = [];
+    public DateTime EndDate => StartDate.AddMonths(3);
+    [DataMember]
+    public ICollection<GameDto> Games { get; set; } = [];
 }
