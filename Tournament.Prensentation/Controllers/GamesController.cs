@@ -12,9 +12,15 @@ public class GamesController(IServiceManager serviceManager) : ControllerBase
 {
     // GET: api/Games
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<GameDto>>> GetGames([FromQuery] GamesParameters gamesParameters)
+    public async Task<ActionResult<IEnumerable<GameDto>>> GetGames([FromQuery] PaginationParameters paginationParameters)
     {
-        var games = await serviceManager.GameService.GetAllGamesAsync(gamesParameters);
+        var games = await serviceManager.GameService.GetAllGamesAsync(paginationParameters);
+
+        Response.Headers.Add("X-Total-Count", paginationParameters.TotalItems.ToString());
+        Response.Headers.Add("X-Page-Size", paginationParameters.PageSize.ToString());
+        Response.Headers.Add("X-Current-Page", paginationParameters.CurrentPage.ToString());
+        Response.Headers.Add("X-Total-Pages", paginationParameters.TotalPages.ToString());
+
         return games is null ? NotFound() : Ok(games);
     }
 

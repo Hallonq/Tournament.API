@@ -5,7 +5,7 @@ using Tournament.Core.Entities;
 namespace Tournament.Contracts;
 public interface IGameService
 {
-    Task<IEnumerable<GameDto>> GetAllGamesAsync(GamesParameters gamesParameters);
+    Task<IEnumerable<GameDto>> GetAllGamesAsync(PaginationParameters paginationParameters);
     Task<GameDto> GetGameByIdAsync(int id);
     Task<GameDto> GetGameByTitleAsync(string title);
     Task<GameDto> CreateGameAsync(GameDto gameDto);

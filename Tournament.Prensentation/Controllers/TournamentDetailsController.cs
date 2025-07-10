@@ -12,9 +12,15 @@ public class TournamentDetailsController(IServiceManager serviceManager) : Contr
 {
     // GET: api/TournamentDetails
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TournamentDto>>> GetTournamentDetails([FromQuery] bool includeGames)
+    public async Task<ActionResult<IEnumerable<TournamentDto>>> GetTournamentDetails([FromQuery] bool includeGames, [FromQuery] PaginationParameters paginationParameters)
     {
-        var tournaments = await serviceManager.TournamentService.GetAllTournamentsAsync(includeGames);
+        var tournaments = await serviceManager.TournamentService.GetAllTournamentsAsync(includeGames, paginationParameters);
+
+        Response.Headers.Add("X-Total-Count", paginationParameters.TotalItems.ToString());
+        Response.Headers.Add("X-Page-Size", paginationParameters.PageSize.ToString());
+        Response.Headers.Add("X-Current-Page", paginationParameters.CurrentPage.ToString());
+        Response.Headers.Add("X-Total-Pages", paginationParameters.TotalPages.ToString());
+
         return tournaments is null ? NotFound() : Ok(tournaments);
     }
 

@@ -1,5 +1,5 @@
 ﻿namespace Tournament.Core.Entities;
-public class GamesParameters
+public class PaginationParameters
 {
     public int TotalPages { get; set; }
 

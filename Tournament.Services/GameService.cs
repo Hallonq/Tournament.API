@@ -11,9 +11,9 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper) : IGameService
     private readonly IUnitOfWork unitOfWork = unitOfWork;
     private readonly IMapper mapper = mapper;
 
-    public async Task<IEnumerable<GameDto>> GetAllGamesAsync(GamesParameters gamesParameters)
+    public async Task<IEnumerable<GameDto>> GetAllGamesAsync(PaginationParameters paginationParameters)
     {
-        var entities = await unitOfWork.GamesRepository.GetAllAsync(gamesParameters);
+        var entities = await unitOfWork.GamesRepository.GetAllAsync(paginationParameters);
         return mapper.Map<List<GameDto>>(entities);
     }
 
