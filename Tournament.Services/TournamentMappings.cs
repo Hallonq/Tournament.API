@@ -7,7 +7,7 @@ public class TournamentMappings : Profile
 {
     public TournamentMappings()
     {
-        CreateMap<TournamentDetails, TournamentDto>().ReverseMap();
-        CreateMap<Game, GameDto>().ReverseMap();
+        CreateMap<TournamentDetails, TournamentDto>();
+        CreateMap<Game, GameDto>();
     }
 }

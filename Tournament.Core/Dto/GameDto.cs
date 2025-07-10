@@ -7,8 +7,8 @@ public class GameDto
 {
     [DataMember]
     [Required]
-    [Length(3, 20)]
+    [StringLength(20, MinimumLength = 3)]
     public string? Title { get; set; }
     [DataMember]
-    public DateTime StartDate { get; set; }
+    public DateTime Time { get; set; }
 }
