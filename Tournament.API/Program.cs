@@ -24,7 +24,7 @@ public class Program
             .AddXmlDataContractSerializerFormatters();
         builder.Services.AddScoped<ITournamentRepository, TournamentRepository>();
         builder.Services.AddScoped<IGamesRepository, GamesRepository>();
-        builder.Services.AddAutoMapper(typeof(TournamentMappings));
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IGameService, GameService>();
         builder.Services.AddScoped<ITournamentService, TournamentService>();

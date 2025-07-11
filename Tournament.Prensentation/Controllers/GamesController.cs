@@ -58,7 +58,7 @@ public class GamesController(IServiceManager serviceManager) : ControllerBase
     public async Task<ActionResult<GameDto>> PostGame(GameDto gameDto)
     {
         var game = await serviceManager.GameService.CreateGameAsync(gameDto);
-        return CreatedAtAction("GetGame", new { game });
+        return CreatedAtAction("GetGame", new { title = game.Title }, game);
     }
 
     // DELETE: api/Games/5

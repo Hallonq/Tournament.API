@@ -55,10 +55,10 @@ public class TournamentDetailsController(IServiceManager serviceManager) : Contr
     // POST: api/TournamentDetails
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<TournamentDetails>> PostTournamentDetails(TournamentDto tournamentDto)
+    public async Task<ActionResult<TournamentDto>> PostTournamentDetails(TournamentDto tournamentDto)
     {
         var DTO = await serviceManager.TournamentService.CreateTournamentAsync(tournamentDto);
-        return CreatedAtAction("GetTournamentDetails", DTO);
+        return CreatedAtAction("GetTournamentDetails", DTO); // need id here to access GET method
     }
 
     // DELETE: api/TournamentDetails/5

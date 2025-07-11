@@ -50,6 +50,15 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper) : IGameService
     public async Task<GameDto> CreateGameAsync(GameDto gameDto)
     {
         var game = mapper.Map<Game>(gameDto);
+
+        if (game.TournamentId == 0 || game.Tournament is null)
+        {
+            // manually adding new game object to highest tournamet id available (latest created)
+            var tournamentDetailsCollection = unitOfWork.TournamentRepository.GetAllAsync(false, new PaginationParameters());
+            var tournamentWithHighestId = tournamentDetailsCollection.Result.Where(x => x.Games.Count < 10).OrderByDescending(x => x.Id).First();
+            game.TournamentId = tournamentWithHighestId.Id;
+            game.Tournament = tournamentWithHighestId;
+        }
         unitOfWork.GamesRepository.Add(game);
         await unitOfWork.PersistAllAsync();
         return gameDto;
