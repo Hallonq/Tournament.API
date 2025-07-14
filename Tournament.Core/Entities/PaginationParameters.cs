@@ -2,7 +2,6 @@
 public class PaginationParameters
 {
     public int TotalPages { get; set; }
-
     private int pageSize = 20;
     public int PageSize
     {

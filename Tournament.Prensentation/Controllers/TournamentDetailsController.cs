@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Tournament.Contracts;
 using Tournament.Core.Dto;
@@ -16,10 +17,10 @@ public class TournamentDetailsController(IServiceManager serviceManager) : Contr
     {
         var tournaments = await serviceManager.TournamentService.GetAllTournamentsAsync(includeGames, paginationParameters);
 
-        Response.Headers.Add("X-Total-Count", paginationParameters.TotalItems.ToString());
-        Response.Headers.Add("X-Page-Size", paginationParameters.PageSize.ToString());
-        Response.Headers.Add("X-Current-Page", paginationParameters.CurrentPage.ToString());
-        Response.Headers.Add("X-Total-Pages", paginationParameters.TotalPages.ToString());
+        Response.Headers.Append("X-Total-Count", paginationParameters.TotalItems.ToString());
+        Response.Headers.Append("X-Page-Size", paginationParameters.PageSize.ToString());
+        Response.Headers.Append("X-Current-Page", paginationParameters.CurrentPage.ToString());
+        Response.Headers.Append("X-Total-Pages", paginationParameters.TotalPages.ToString());
 
         return tournaments is null ? NotFound() : Ok(tournaments);
     }

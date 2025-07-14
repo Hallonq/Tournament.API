@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Tournament.Contracts;
 using Tournament.Core.Dto;
@@ -16,10 +17,10 @@ public class GamesController(IServiceManager serviceManager) : ControllerBase
     {
         var games = await serviceManager.GameService.GetAllGamesAsync(paginationParameters);
 
-        Response.Headers.Add("X-Total-Count", paginationParameters.TotalItems.ToString());
-        Response.Headers.Add("X-Page-Size", paginationParameters.PageSize.ToString());
-        Response.Headers.Add("X-Current-Page", paginationParameters.CurrentPage.ToString());
-        Response.Headers.Add("X-Total-Pages", paginationParameters.TotalPages.ToString());
+        Response.Headers.Append("X-Total-Count", paginationParameters.TotalItems.ToString());
+        Response.Headers.Append("X-Page-Size", paginationParameters.PageSize.ToString());
+        Response.Headers.Append("X-Current-Page", paginationParameters.CurrentPage.ToString());
+        Response.Headers.Append("X-Total-Pages", paginationParameters.TotalPages.ToString());
 
         return games is null ? NotFound() : Ok(games);
     }
@@ -55,7 +56,7 @@ public class GamesController(IServiceManager serviceManager) : ControllerBase
     // POST: api/Games
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<GameDto>> PostGame(GameDto gameDto)
+    public async Task<ActionResult<GameDto>> CreateGame(GameDto gameDto)
     {
         var game = await serviceManager.GameService.CreateGameAsync(gameDto);
         return CreatedAtAction("GetGame", new { title = game.Title }, game);
