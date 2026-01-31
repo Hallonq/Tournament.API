@@ -2,10 +2,10 @@
 using Tournament.Core.Dto;
 using Tournament.Core.Entities;
 
-namespace Tournament.Data.Data;
-public class TournamentMappings : Profile
+namespace Tournament.Services;
+public class MappingProfile : Profile
 {
-    public TournamentMappings()
+    public MappingProfile()
     {
         CreateMap<TournamentDetails, TournamentDto>().ReverseMap();
         CreateMap<Game, GameDto>().ReverseMap();
